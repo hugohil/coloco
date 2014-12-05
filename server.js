@@ -46,8 +46,8 @@ io.on('connection', function (socket) {
   })
 
 // find better name
-var front = io
-  .of('/front')
+var remote = io
+  .of('/remote')
   .on('connection', function (socket){
     var delivery = dl.listen(socket);
     delivery.on('receive.success', function (file){
