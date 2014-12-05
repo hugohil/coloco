@@ -1,0 +1,32 @@
+{
+  "name": "Coloco-Server",
+  "version": "0.0.0",
+  "description": "Coloco Server",
+  "main": "server.js",
+  "dependencies": {
+    "delivery": "0.0.3",
+    "socket.io": "^1.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hugohil/coloco"
+  },
+  "keywords": [
+    "sound",
+    "system",
+    "local",
+    "network",
+    "node",
+    "server"
+  ],
+  "author": "hugohil",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hugohil/coloco/issues"
+  }
+}
