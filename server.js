@@ -39,7 +39,7 @@ io.on('connection', function (socket) {
       filename = name.replace(/\s|'/g, '-');
       fs.unlink(config.dir + filename, function (err){
         if(!err){
-          console.log(filename + 'removed.');
+          console.log(filename + ' removed.');
         }
       })
     });
@@ -51,13 +51,14 @@ var remote = io
   .on('connection', function (socket){
     var delivery = dl.listen(socket);
     delivery.on('receive.success', function (file){
-      file.name = file.name.replace(/\s|'/g, '-');
+      file.name = file.name.replace(/\s|'/g, '-'); // spaces or quotes brokes player request for reading
       fs.writeFile(config.dir + file.name, file.buffer, function (err){
         if(err){
           console.log('File could not be saved.\n' + err);
         } else {
           console.log(file.name + ' saved.');
-          io.emit('new-song', file.name);
+          io.emit('saved-song'); // tell remote it can send next song in stack
+          io.emit('new-song', file.name); // tell remote and player a new song has been added and what's its name
         }
       });
     })
