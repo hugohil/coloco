@@ -51,7 +51,8 @@ var remote = io
   .on('connection', function (socket){
     var delivery = dl.listen(socket);
     delivery.on('receive.success', function (file){
-      file.name = file.name.replace(/\s|'/g, '-'); // spaces or quotes brokes player request for reading
+      // file.name = file.name.replace(/\s|'/g, '-'); // spaces or quotes brokes player request for reading
+      file.name = file.name.replace(/[^a-zA-Z0-9_;-]/g, '-'); // spaces or quotes brokes player request for reading
       fs.writeFile(config.dir + file.name, file.buffer, function (err){
         if(err){
           console.log('File could not be saved.\n' + err);
@@ -61,6 +62,23 @@ var remote = io
           io.emit('new-song', file.name); // tell remote and player a new song has been added and what's its name
         }
       });
+    })
+  })
+
+var player = io
+  .of('/player') // player namespace is just passing messages from remote to player
+  .on('connection', function (socket){
+    socket.on('change-state', function (){
+      player.emit('change-state');
+    })
+    socket.on('change-song', function (direction){
+      player.emit('change-song', direction);
+    })
+    socket.on('switch-random', function (){
+      player.emit('switch-random');
+    })
+    socket.on('switch-auto', function (){
+      player.emit('switch-auto');
     })
   })
 
